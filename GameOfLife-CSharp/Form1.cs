@@ -14,9 +14,14 @@ namespace GameOfLife_CSharp
         public Form1()
         {
             InitializeComponent();
+
+            b = new Buffer();
+            b.FillRandom();
+            pictureBox1.Invalidate();
         }
 
         static bool resume = false;
+        Buffer b;
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -47,14 +52,14 @@ namespace GameOfLife_CSharp
 				for (int j = 0; j < wndh; j++)
 				{
 					g.DrawRectangle(Pens.Aqua, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
-					/*if (frontBuffer[i][j] == 0)
+					if (b.is_live(i,j))
 					{
-						g.FillRectangle(Brushes.White, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
+                        g.FillRectangle(Brushes.Black, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
 					} 
 					else
 					{
-						g.FillRectangle(Brushes.Black, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
-					}*/
+						g.FillRectangle(Brushes.White, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
+					}
 				}
 			}
 
