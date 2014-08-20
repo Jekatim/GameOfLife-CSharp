@@ -89,7 +89,7 @@ namespace GameOfLife_CSharp
 			{
 				this.CalculateGeneration();
 
-				//Thread::Sleep(30);
+				Thread.Sleep(30);
 			}
 		}
 
@@ -228,6 +228,27 @@ namespace GameOfLife_CSharp
                 resume = false;
                 calcthr.Join();
             }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+			 {
+			 case Keys.Space:
+				 stepToolStripMenuItem_Click(sender, e);
+				 break;
+			 case Keys.R:
+				 startToolStripMenuItem_Click(sender, e);
+				 break;
+			 case Keys.S:
+				 stopToolStripMenuItem_Click(sender, e);
+				 break;
+			 case Keys.Escape:
+				 exitToolStripMenuItem_Click(sender, e);
+				 break;
+			 default:
+				 break;
+			 }
         }
     }
 }
