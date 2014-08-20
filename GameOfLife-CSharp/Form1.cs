@@ -109,5 +109,45 @@ namespace GameOfLife_CSharp
             else
                 return buf1;
         }
+
+        int CountNeighbours(int x, int y)
+		{
+			int counter = 0;
+			int[,] nb = new int[2,8];
+			int k = 0;
+
+			for (int i = x - 1; i <= x + 1; i++) {
+				for (int j = y - 1; j <= y + 1; j++) {
+
+					if (i == x && j == y)
+						continue;
+
+					if (i < 0)
+                        nb[0, k] = Config.getWidth() - 1;
+					else
+                        if (i >= Config.getWidth()) 
+							nb[0,k] = 0;
+						else
+							nb[0,k] = i;
+
+					if (j < 0)
+                        nb[1, k] = Config.getHeight() - 1;
+					else
+                        if (j >= Config.getHeight()) 
+							nb[1,k] = 0;
+						else
+							nb[1,k] = j;
+
+					k++;
+				}
+			}
+
+			for (int i = 0; i < 8; i++)
+			{
+                if (CurrentBuffer().is_live(nb[0,i], nb[1,i]))
+					counter++;
+			}
+			return counter;
+		}
     }
 }
