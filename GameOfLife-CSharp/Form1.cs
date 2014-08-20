@@ -15,13 +15,18 @@ namespace GameOfLife_CSharp
         {
             InitializeComponent();
 
-            b = new Buffer();
-            b.FillRandom();
+            buf1 = new Buffer();
+            buf2 = new Buffer();
+            buf1.FillRandom();
+            currentBuf = CurrentBuffer(0);
             pictureBox1.Invalidate();
         }
 
         static bool resume = false;
-        Buffer b;
+
+        static int bufFlag = 0;
+        Buffer buf1, buf2;
+        Buffer currentBuf;
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -52,7 +57,7 @@ namespace GameOfLife_CSharp
 				for (int j = 0; j < wndh; j++)
 				{
 					g.DrawRectangle(Pens.Aqua, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
-					if (b.is_live(i,j))
+					if (currentBuf.is_live(i,j))
 					{
                         g.FillRectangle(Brushes.Black, i*stepw + 1, j*steph + 1, stepw - 1, steph - 1);
 					} 
@@ -74,6 +79,28 @@ namespace GameOfLife_CSharp
         private void Form1_Shown(object sender, EventArgs e)
         {
             menuStrip1.Refresh();
+        }
+
+        Buffer CurrentBuffer(int f)
+        {
+            return buf1;
+        }
+
+        Buffer CurrentBuffer()
+        {
+            switch (bufFlag)
+            {
+                case 0:
+                case 1:
+                    bufFlag = 2;
+                    return buf2;
+                case 2:
+                    bufFlag = 1;
+                    return buf1;
+                default:
+                    bufFlag = 1;
+                    return buf1;
+            }     
         }
     }
 }
