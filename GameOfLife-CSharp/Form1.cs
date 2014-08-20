@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace GameOfLife_CSharp
 {
@@ -26,6 +27,8 @@ namespace GameOfLife_CSharp
 
         static int bufFlag = 0;
         Buffer buf1, buf2;
+
+        Thread calcthr;
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -79,6 +82,16 @@ namespace GameOfLife_CSharp
         {
             menuStrip1.Refresh();
         }
+
+        void CalcThread()
+		{
+			while (resume)
+			{
+				this.CalculateGeneration();
+
+				//Thread::Sleep(30);
+			}
+		}
 
         void SwitchBuffer()
         {
@@ -150,7 +163,7 @@ namespace GameOfLife_CSharp
 			return counter;
 		}
 
-        void CalculateGeneration()
+        public void CalculateGeneration()
         {
             int neighbours = 0;
 
@@ -196,6 +209,25 @@ namespace GameOfLife_CSharp
         private void stepToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CalculateGeneration();
+        }
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!resume)
+			 {
+				 resume = true;
+                 calcthr = new Thread(new ThreadStart(CalcThread));
+                 calcthr.Start();
+			 }
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (resume)
+            {
+                resume = false;
+                calcthr.Join();
+            }
         }
     }
 }
