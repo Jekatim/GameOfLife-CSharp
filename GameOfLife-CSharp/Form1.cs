@@ -250,5 +250,20 @@ namespace GameOfLife_CSharp
 				 break;
 			 }
         }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigDialog cfgdlg = new ConfigDialog();
+			cfgdlg.ShowDialog();
+
+            bufFlag = 0;
+
+            buf1 = new Buffer();
+            buf2 = new Buffer();
+            buf1.FillRandom();
+            SwitchBuffer();
+
+			pictureBox1.Invalidate();
+        }
     }
 }
