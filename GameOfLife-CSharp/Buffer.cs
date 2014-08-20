@@ -36,7 +36,15 @@ namespace GameOfLife_CSharp
                 return false;
         }
 
+        public void born(int x, int y)
+        {
+            cells[x, y] = 1;
+        }
 
+        public void die(int x, int y)
+        {
+            cells[x, y] = 0;
+        }
 
     }
 }

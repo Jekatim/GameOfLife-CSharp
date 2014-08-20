@@ -149,5 +149,53 @@ namespace GameOfLife_CSharp
 			}
 			return counter;
 		}
+
+        void CalculateGeneration()
+        {
+            int neighbours = 0;
+
+            for (int i = 0; i < Config.getWidth(); i++)
+            {
+                for (int j = 0; j < Config.getHeight(); j++)
+                {
+                    neighbours = CountNeighbours(i, j);
+
+                    if (CurrentBuffer().is_live(i,j))
+                    {
+                        switch (neighbours)
+                        {
+                            case 3:
+                                PrevBuffer().born(i,j);
+                                break;
+                            default:
+                                PrevBuffer().die(i, j);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (neighbours)
+                        {
+                            case 2:
+                            case 3:
+                                PrevBuffer().born(i, j);
+                                break;
+                            default:
+                                PrevBuffer().die(i, j);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            SwitchBuffer();
+
+            pictureBox1.Invalidate();
+        }
+
+        private void stepToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalculateGeneration();
+        }
     }
 }
